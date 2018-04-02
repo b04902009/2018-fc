@@ -2,25 +2,25 @@
 #include <cmath>
 using namespace std;
 int main(){
-	double S, X, T, s, r;
-	int n;
-	printf("Spot price: ");
-	scanf("%lf", &S);
-	printf("Strike price: ");
-	scanf("%lf", &X);
+    double S, X, T, s, r;
+    int n;
+    printf("Spot price: ");
+    scanf("%lf", &S);
+    printf("Strike price: ");
+    scanf("%lf", &X);
     printf("Risk-free interest rate: ");
     scanf("%lf", &r);
-	printf("Volatility: ");
-	scanf("%lf", &s);
+    printf("Volatility: ");
+    scanf("%lf", &s);
     printf("Maturity in years: ");
     scanf("%lf", &T);
-	printf("Number of periods: ");
-	scanf("%d", &n);
+    printf("Number of periods: ");
+    scanf("%d", &n);
 
     double R = exp(r * T/n);
     double u = exp(s * sqrt(T/n)), d = 1 / u;
     double p = (R-d) / (u-d);
-    
+
 // Initial values at time t
     /*
     The CRR method ensures that the tree is recombinant.
