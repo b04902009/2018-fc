@@ -32,7 +32,7 @@ Input:
 
 Output: call price and its delta
 
-> Example:
-> S = 100, X = 100, H = 110, T = 1, r = 0.05, s = 0.30, and n = 200, and k = 100
-> Call price: 
+> Example:  
+> S = 100, X = 100, H = 110, T = 1, r = 0.05, s = 0.30, and n = 200, and k = 100  
+> Call price:   
 > Delta: 
