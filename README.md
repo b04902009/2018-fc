@@ -1,6 +1,4 @@
 # Principles of Financial Computation
-
-
 ### hw1
 Write a program to price the American put and its delta based on the CRR binomial tree. 
 
@@ -15,11 +13,8 @@ Inputs:
 Output: put price and delta.
 
 > Example:
-
 > S = 100, X = 105, r = 0.03, s = 0.25, T = 1, and n = 300
-
 > Put price: 11.4336
-
 > Delta: -0.5066
 
 ### hw2
@@ -40,7 +35,5 @@ Output: call price and its delta
 > Example:
 
 > S = 100, X = 100, H = 110, T = 1, r = 0.05, s = 0.30, and n = 200, and k = 100
-
 > Call price: 
-
 > Delta: 
