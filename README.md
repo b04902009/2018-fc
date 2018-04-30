@@ -12,9 +12,9 @@ Inputs:
 
 Output: put price and delta.
 
-> Example:
-> S = 100, X = 105, r = 0.03, s = 0.25, T = 1, and n = 300
-> Put price: 11.4336
+> Example:  
+> S = 100, X = 105, r = 0.03, s = 0.25, T = 1, and n = 300  
+> Put price: 11.4336  
 > Delta: -0.5066
 
 ### hw2
