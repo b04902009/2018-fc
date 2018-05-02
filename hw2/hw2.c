@@ -14,14 +14,14 @@ Then the call price is x.xxxx and its delta is 0.xxx.
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#define American
+// #define American
 
 double S0, X, H, T, s, r;
 int n, bk;
 double u, d;
 
 double max(double a, double b){return a > b ? a : b;}
-void init(double **S, double ***A, double ***C){
+void init_stock_price(double **S, double ***A){
     u = exp(s * sqrt(T/n)), d = 1 / u;
     // Stock price
     for(int j = 0; j <= n; j++)
@@ -39,12 +39,14 @@ void init(double **S, double ***A, double ***C){
             for(int k = 0; k <= bk; k++)
                 A[j][i][k] = (double)(bk-k)/bk * A_min + (double)k/bk * A_max;
         }
-
+}
+void init_call_price(double ***A, double ***C, int knock_out){
     // Maturity call price
     for(int i = 0; i <= n; i++)
-        for(int k = 0; k <= bk; k++)
+        for(int k = 0; k <= bk; k++){
             C[n][i][k] = max(A[n][i][k]-X, 0);
-
+            if(knock_out && A[n][i][k] > H)  C[n][i][k] = 0;
+        }
 }
 int compute_l(double a, int j, int i, double ***A){
     double A_min = A[j][i][0];
@@ -58,7 +60,7 @@ double compute_x(double a, int j, int i, int l, double ***A){
     if(left == right)   return 0;
     return (a-right) / (left-right);
 }
-void backward_induction(double **S, double ***A, double ***C){
+double backward_induction(double **S, double ***A, double ***C, int knock_out){
     double R = exp(r * T/n), p = (R-d) / (u-d);
     double Au, Ad, xu, xd, Cu, Cd;
     double binomial, exercise = 0.0;
@@ -84,16 +86,16 @@ void backward_induction(double **S, double ***A, double ***C){
                     xd = compute_x(Ad, j+1, i+1, ld, A);
                     Cd = xd * C[j+1][i+1][ld] + (1-xd) * C[j+1][i+1][ld+1];
                 }
-                // Option price
                 binomial = (p * Cu + (1-p) * Cd) / R;
 #ifdef American                
                 exercise = A[j][i][k] - X;
 #endif
                 C[j][i][k] = (exercise > binomial)? exercise : binomial;
-                if(A[j][i][k] > H)  C[j][i][k] = 0;
+                if(knock_out && A[j][i][k] > H)  C[j][i][k] = 0;
             }
         }
     }
+    return (C[1][0][0]-C[1][1][0]) / (S[1][0]-S[1][1]);
 }
 double **malloc_2Darray(int x, int y){
     double **a = (double**)malloc(sizeof(double*) * x);
@@ -119,22 +121,33 @@ int main(){
     printf("Volatility: ");                 scanf("%lf", &s);
     printf("Number of periods: ");          scanf("%d", &n);
     printf("Number of buckets: ");          scanf("%d", &bk);
-    
+ 
     double **S = malloc_2Darray(n+1, n+1);
     double ***A = malloc_3Darray(n+1, n+1, bk+1);
     double ***C = malloc_3Darray(n+1, n+1, bk+1);
 
-    init(S, A, C);
-    backward_induction(S, A, C);
-    double delta = (C[1][0][0]-C[1][1][0]) / (S[1][0]-S[1][1]);
+    // European arithmetic call on a non-dividend-paying stock (No barrier)
+    init_stock_price(S, A);
+    init_call_price(A, C, 0);
+    double delta = backward_induction(S, A, C, 0);
+    double call_price = C[0][0][0];
 
-    printf("Call price: %f\n", C[0][0][0]);
-    printf("Delta: %f\n", delta);
+    // European arithmetic average-rate knock-out call on a non-dividend-paying stock
+    init_call_price(A, C, 1);
+    double delta_back = backward_induction(S, A, C, 1);
+
+    // By in-out parity
+    printf("Call price: %f\n", call_price-C[0][0][0]);
+    printf("Delta: %f\n", delta-delta_back);
     return 0;
 }
 /*
+knock-out call option
 S0 = 100, X = 80, H = 130, T = 1, r = 0.1, s = 0.3, n = 100, bk = 300;
 American: 25.6562
-European:17.2982, hedge: 0.3152
+European:17.2982, delta: 0.3152
+
+knock-in call option
+S0 = 100, X = 100, H = 110, T = 1, r = 0.05, s = 0.30, n = 200, bk = 100;
+European: 8.3514, delta: 0.5726.
 */
-// S0 = 100, X = 100, H = 110, T = 1, r = 0.05, s = 0.30, n = 200, bk = 100;   // 8.3514
