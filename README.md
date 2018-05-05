@@ -18,7 +18,7 @@ Output: put price and delta.
 > Delta: -0.5066
 
 ### hw2
-Write a program to price the American arithmetic average-rate knock-in call on a non-dividend-paying stock.
+Write a program to price the European arithmetic average-rate knock-in call on a non-dividend-paying stock.
 
 Input: 
 1. S (spot price)
@@ -34,5 +34,5 @@ Output: call price and its delta
 
 > Example:  
 > S = 100, X = 100, H = 110, T = 1, r = 0.05, s = 0.30, and n = 200, and k = 100  
-> Call price:   
-> Delta: 
+> Call price: 8.3514  
+> Delta: 0.5726
