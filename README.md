@@ -36,3 +36,23 @@ Output: call price and its delta
 > S = 100, X = 100, H = 110, T = 1, r = 0.05, s = 0.30, and n = 200, and k = 100  
 > Call price: 8.3514  
 > Delta: 0.5726
+
+### hw3
+Write a least-squares Monte Carlo program to price American-style Asian puts. 
+Note that the payoff is the same as the Asian put (of course, it is based on the running average if early exercised). 
+
+Input:
+1. S (spot price)
+2. X (strike price)
+3. T (years)
+4. r (risk-free interest rate)
+5. s (volatility)
+6. n (number of periods)
+7. k (number of simulation paths)
+
+Output:  price and standard error
+
+> Example:  
+> S = 100, X = 100, T = 1, r = 0.05, s = 0.30, n = 100, and k = 100000  
+> Put price: 5.5126  
+> Standard error is 0.0251
