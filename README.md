@@ -56,3 +56,25 @@ Output:  price and standard error
 > S = 100, X = 100, T = 1, r = 0.05, s = 0.30, n = 100, and k = 100000  
 > Put price: 5.5126  
 > Standard error is 0.0251
+
+### hw4
+Write a program to price European put options based on the GARCH model (Ritchken-Trevor algorithm).
+
+Inputs:
+1. E (days before expiration)
+2. r (%) (interest rate)
+3. S (stock price at time 0)
+4. h0
+5. b0
+6. b1
+7. b2
+8. c 
+9. X (strike price)
+10. n1 (number of partitions per day)
+11. n2 (number of variances per node). 
+
+Output:  price
+
+> Example
+> E = 10, r (%) = 5, S = 100, h0 = 0.010469, b0 = 0.000006575, b1 = 0.9, b2 = 0.04, c = 0, X = 100, n1 = 3, n2 = 3  
+> Option price: about 2.0163
