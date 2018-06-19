@@ -61,10 +61,10 @@ def compute_max_min_var(h2_cur, eta, H2, i_next):
             H2[i_next][j_next][0] = min(H2[i_next][j_next][0], h2_next)
             H2[i_next][j_next][-1] = max(H2[i_next][j_next][-1], h2_next)
         else:
-            H2[i_next][j_next] = [h2_next]*n_part
+            H2[i_next][j_next] = [h2_next]*n_var
             
 def compute_interpolation_var(H2, next_i):
-    for j in  sorted(H2[next_i].keys()):
+    for j in sorted(H2[next_i].keys()):
         h2_min = H2[next_i][j][0]
         h2_max = H2[next_i][j][-1]
         for k in range(n_var):
